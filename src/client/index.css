@@ -1,0 +1,159 @@
+
+.profile-img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 3px solid #007bff;
+  margin: 15px 0;
+  object-fit: cover;
+}
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+  background-color: #f1f5f9;
+  color: #333;
+  line-height: 1.7;
+}
+
+a {
+  text-decoration: none;
+  color: #007bff;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: #0056b3;
+}
+
+.container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  border-radius: 12px;
+}
+
+.center {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+h1 {
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: #007bff;
+  text-align: center;
+  margin-bottom: 20px;
+  letter-spacing: -0.5px;
+}
+
+h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+p {
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: #555;
+  text-align: center;
+}
+
+.file-name {
+  margin-top: 10px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #555;
+  word-wrap: break-word;
+  text-align: center;
+}
+
+button,
+.file-input-label {
+  display: inline-block;
+  padding: 12px 25px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: #fff;
+  text-align: center;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s, transform 0.2s ease;
+}
+
+button:hover,
+.file-input-label:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+button.delete-btn {
+  padding: 12px 25px;
+  font-size: 16px;
+  font-weight: 600;
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button.delete-btn:hover {
+  background-color: #cc0000;
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin: 25px 0;
+  padding: 10px 0;
+  background-color: #ffffff;
+  border-radius: 8px;
+}
+
+.file-input-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.file-input {
+  position: absolute;
+  opacity: 0;
+  z-index: 2;
+  cursor: pointer;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.mt-20 {
+  margin-top: 20px;
+}
+
+.mb-20 {
+  margin-bottom: 20px;
+}
+
+.rounded {
+  border-radius: 8px;
+}
+
+.shadow {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
