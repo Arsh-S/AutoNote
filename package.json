@@ -1,0 +1,17 @@
+{
+    "private": true,
+    "license": "MIT",
+    "scripts": {
+        "build": "turbo run build",
+        "dev": "turbo run dev",
+        "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    },
+    "devDependencies": {
+        "eslint": "^9.15.0",
+        "prettier": "^3.4.1",
+        "turbo": "latest"
+    },
+    "packageManager": "pnpm@9.14.2",
+    "name": "full-stack",
+    "version": "0.0.0"
+}
