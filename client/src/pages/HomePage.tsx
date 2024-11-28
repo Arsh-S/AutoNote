@@ -5,32 +5,46 @@ import SignOutButton from "../components/SignOutButton";
 import NavigationButtons from "../components/NavigationButtons";
 
 const HomePage = () => {
-  const { user, loading } = useAuthUser();
+    const { user, loading } = useAuthUser();
 
-  if (loading) {
+    if (loading) {
+        return (
+            <div className="loading">
+                <div className="spinner"></div>
+            </div>
+        );
+    }
+
     return (
-      <div className="loading">
-        <div className="spinner"></div>
-      </div>
+        <div className="centered-container">
+            <header className="header">
+                <img src="/autonote.svg" alt="AutoNote" className="logo" />
+                <h1 className="app-title">AutoNote</h1>
+            </header>
+            <div className="container center-content">
+                <NavigationButtons />
+                {user ? (
+                    <>
+                        <h1>Welcome, {user.displayName?.split(" ")[0]}!</h1>
+                        {user.photoURL && (
+                            <img
+                                src={user.photoURL}
+                                alt="Profile"
+                                className="profile-img"
+                                referrerPolicy="no-referrer"
+                            />
+                        )}
+                        <SignOutButton />
+                    </>
+                ) : (
+                    <>
+                        <h1>Welcome to AutoNote</h1>
+                        <AuthButton />
+                    </>
+                )}
+            </div>
+        </div>
     );
-  }
-
-  return (
-    <div className="centered-container">
-      <div className="container center-content">
-        <NavigationButtons />
-        <h1>Welcome to AutoNote</h1>
-        {user ? (
-          <>
-            <p>Logged in as {user.displayName}</p>
-            <SignOutButton />
-          </>
-        ) : (
-          <AuthButton />
-        )}
-      </div>
-    </div>
-  );
 };
 
 export default HomePage;
