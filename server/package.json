@@ -3,22 +3,21 @@
   "version": "1.0.0",
   "main": "api.ts",
   "scripts": {
-    "dev": "pnpm tsx api.ts",
+    "dev": "pnpm tsx --env-file=../.env api.ts",
     "build": "tsc"
   },
   "dependencies": {
-    "body-parser": "^1.20.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "firebase": "^11.0.2",
     "firebase-admin": "^13.0.1",
+    "openai": "^4.74.0",
     "ts-node": "^10.9.1",
     "tsx": "^4.19.2",
     "typescript": "^5.0.4"
   },
   "devDependencies": {
-    "@types/body-parser": "^1.19.3",
     "@types/cors": "^2.8.12",
     "@types/express": "^4.17.15",
     "nodemon": "^3.1.7",
