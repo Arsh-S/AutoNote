@@ -1,54 +1,47 @@
-# Use Node.js as the base image for building
-FROM node:20 as builder
+# Use a Node.js image with support for pnpm
+FROM node:20-alpine as builder
 
-# Install pnpm
+# Install pnpm globally
 RUN npm install -g pnpm
-ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
 
-# Set the working directory
+# Set working directory
 WORKDIR /app
 
-# Copy the entire monorepo
+# Copy the project files
 COPY . .
 
-# Clean up old node_modules and install dependencies
-RUN rm -rf node_modules **/node_modules
+# Install dependencies
 RUN pnpm install
 
 # Build the client
 RUN pnpm --filter client run build
 
-# Prepare the server (install dependencies only for the server)
-RUN pnpm --filter server install --prod
+# Prepare for production
+RUN pnpm install --filter server --prod
 
-# Use Nginx for serving the frontend and backend in the final stage
+# Use an Nginx image to serve the frontend
 FROM nginx:stable-alpine
 
-# Copy Nginx configuration
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-# Copy built frontend from the builder stage
+# Copy built client files to Nginx
 COPY --from=builder /app/client/dist /usr/share/nginx/html
 
-# Copy server files
-COPY --from=builder /app /app
+# Copy the server code for backend API
+COPY --from=builder /app/server /app/server
 
-# Install PM2 for managing the backend server
-RUN apk add --no-cache nodejs npm
-RUN npm install -g pm2
+# Install pnpm for server runtime
+RUN apk add --no-cache nodejs npm && npm install -g pnpm
 
-# Set environment variables
-ENV NODE_ENV=production
-ENV PORT=5174
+# Set working directory for the server
+WORKDIR /app/server
 
-# Expose ports for Fly.io
-EXPOSE 80
+# Expose the backend port
 EXPOSE 5174
 
-# Start Nginx and the server
+# Expose the frontend port
+EXPOSE 80
+
+# Start the backend and frontend
 COPY start.sh /start.sh
 RUN chmod +x /start.sh
 
-# Entry point
-ENTRYPOINT ["/start.sh"]
+CMD ["/start.sh"]
