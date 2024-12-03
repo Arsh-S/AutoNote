@@ -1,5 +1,5 @@
-# Use a Node.js image with support for pnpm
-FROM node:20-alpine as builder
+# Base Node.js image
+FROM node:20 AS base
 
 # Install pnpm globally
 RUN npm install -g pnpm
@@ -7,41 +7,46 @@ RUN npm install -g pnpm
 # Set working directory
 WORKDIR /app
 
-# Copy the project files
-COPY . .
+# Copy lock files for dependency installation
+COPY package.json pnpm-lock.yaml ./
 
-# Install dependencies
-RUN pnpm install
+# Install dependencies for both client and server
+RUN pnpm install --frozen-lockfile
 
-# Build the client
+# Client build stage
+FROM base AS client-builder
+
+WORKDIR /app/client
+COPY client .
 RUN pnpm --filter client run build
 
-# Prepare for production
-RUN pnpm install --filter server --prod
+# Server build stage
+FROM base AS server-builder
 
-# Use an Nginx image to serve the frontend
-FROM nginx:stable-alpine
-
-# Copy built client files to Nginx
-COPY --from=builder /app/client/dist /usr/share/nginx/html
-
-# Copy the server code for backend API
-COPY --from=builder /app/server /app/server
-
-# Install pnpm for server runtime
-RUN apk add --no-cache nodejs npm && npm install -g pnpm
-
-# Set working directory for the server
 WORKDIR /app/server
+COPY server .
+RUN pnpm --filter server run build
 
-# Expose the backend port
+# Production image using Node.js to run both server and client
+FROM node:20 AS production
+
+# Install PM2 globally for managing server processes
+RUN npm install -g pm2
+
+# Set working directory for the final build
+WORKDIR /app
+
+# Copy built client and server artifacts
+COPY --from=client-builder /app/client/dist /usr/share/nginx/html
+COPY --from=server-builder /app/server /app/server
+
+# Expose necessary ports
+EXPOSE 80
 EXPOSE 5174
 
-# Expose the frontend port
-EXPOSE 80
+# Set environment variables for production
+ENV NODE_ENV=production
+ENV PORT=5174
 
-# Start the backend and frontend
-COPY start.sh /start.sh
-RUN chmod +x /start.sh
-
-CMD ["/start.sh"]
+# Command to start the server
+CMD ["pm2-runtime", "server/api.js"]
