@@ -8,9 +8,6 @@ build/
 docker-compose.override.yml
 .dockerignore
 
-
-fly.toml
-
 *.log
 
 .DS_Store
