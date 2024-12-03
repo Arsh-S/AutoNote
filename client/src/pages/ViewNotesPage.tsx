@@ -3,33 +3,36 @@ import NavigationButtons from "../components/NavigationButtons";
 import { useAuthUser } from "../auth/AuthUserProvider";
 
 const ViewNotesPage = () => {
-  const { user, loading } = useAuthUser();
+  const { user } = useAuthUser();
   const [notes, setNotes] = useState<any[]>([]);
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    if (user) {
-      fetch("http://localhost:5000/api/notes", {
-        headers: {
-          Authorization: `Bearer ${user.accessToken}`,
-        },
-      })
-        .then((response) => response.json())
-        .then((data) => setNotes(data))
-        .catch((error) => {
-          console.error("Error fetching notes:", error);
-          setMessage("Error fetching notes.");
+    const fetchNotes = async () => {
+      try {
+        const idToken = await user?.getIdToken();
+        const response = await fetch("http://localhost:5174/api/notes", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${idToken}`,
+          },
         });
+        const data = await response.json();
+        if (response.ok) {
+          setNotes(data);
+        } else {
+          setMessage(`Failed to fetch notes: ${data.error}`);
+        }
+      } catch (error) {
+        console.error("Error fetching notes:", error);
+        setMessage("Error fetching notes.");
+      }
+    };
+
+    if (user) {
+      fetchNotes();
     }
   }, [user]);
-
-  if (loading) {
-    return (
-      <div className="loading">
-        <div className="spinner"></div>
-      </div>
-    );
-  }
 
   return (
     <div className="centered-container">
@@ -37,15 +40,15 @@ const ViewNotesPage = () => {
         <NavigationButtons />
         <h1>Your Notes</h1>
         {!user ? (
-          <p>You must be signed in to view your notes.</p>
+          <p>You must be signed in to view notes.</p>
         ) : (
           <>
             {message && <p>{message}</p>}
             <div className="notes-container">
               {notes.map((note) => (
-                <div className="note-card" key={note.id}>
-                  <a href={note.fileUrl} target="_blank" rel="noopener noreferrer">
-                    {note.title}
+                <div className="note-card" key={note.name}>
+                  <a href={note.url} target="_blank" rel="noopener noreferrer">
+                    {note.name}
                   </a>
                 </div>
               ))}

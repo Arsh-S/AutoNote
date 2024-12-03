@@ -99,7 +99,7 @@ nav a:hover {
   color: #007bff;
   border-color: #007bff;
 }
-
+/* Form Styling */
 form {
   display: flex;
   flex-direction: column;
@@ -107,13 +107,21 @@ form {
   margin-top: 20px;
 }
 
-form input {
-  padding: 12px;
+form label {
+  font-size: 1rem;
+  color: #333;
+}
+
+form input[type="file"] {
+  padding: 10px;
   font-size: 14px;
   border: 1px solid #ccc;
   border-radius: 6px;
+  background-color: #fff;
+  margin-top: 10px;
 }
 
+/* Notes Container */
 .notes-container {
   display: flex;
   flex-wrap: wrap;
@@ -142,7 +150,6 @@ form input {
   color: #007bff;
   font-weight: 500;
 }
-
 .text-center {
   text-align: center;
 }
