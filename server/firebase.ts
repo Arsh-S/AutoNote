@@ -2,14 +2,18 @@ import { initializeApp, cert } from "firebase-admin/app";
 import { getAuth } from "firebase-admin/auth";
 import { getStorage } from "firebase-admin/storage";
 import { ServiceAccount } from "firebase-admin";
-import path from "path";
 
-const serviceAccountPath = path.resolve("./service-account.json");
+if (!process.env.FIREBASE_SERVICE_ACCOUNT) {
+    throw new Error("FIREBASE_SERVICE_ACCOUNT environment variable is not set.");
+}
+
+const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
 
 const app = initializeApp({
-    credential: cert(require(serviceAccountPath)),
-    storageBucket: `${require(serviceAccountPath).project_id}.firebasestorage.app`,
+    credential: cert(serviceAccount),
+    storageBucket: `${serviceAccount.project_id}.firebasestorage.app`,
 });
+
 
 export const auth = getAuth(app);
 export const storage = getStorage(app).bucket();
