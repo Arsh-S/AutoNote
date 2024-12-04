@@ -22,10 +22,3 @@ primary_region = 'ewr'
   protocol = "tcp"
   [[services.ports]]
     port = 5174
-  [[services.http_checks]]
-    interval = "10s"
-    method = "GET"
-    path = "/api/health" # Health check
-    timeout = "2s"
-    grace_period = "1m"
-    protocol = "http"
