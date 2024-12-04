@@ -6,6 +6,12 @@
         "dev": "turbo run dev",
         "format": "prettier --write \"**/*.{ts,tsx,md}\""
     },
+    "pnpm": {
+        "overrides": {
+            "object-path": "^0.11.8",
+            "protobufjs": "^7.4.0"
+        }
+    },
     "devDependencies": {
         "eslint": "^9.16.0",
         "prettier": "^3.4.1",
