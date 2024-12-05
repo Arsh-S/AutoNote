@@ -58,7 +58,7 @@ pnpm install
 
 **3. Set Environment Variables:**
 
-Create a .env file in the server directory with the following:
+Create a .env file in the root directory with the following:
 
 - `OPENAI_API_KEY`, from your OpenAI Api key"
 - `FIREBASE_SERVICE_ACCOUNT`, from your Firebase service account file, named `service_account.json`.
