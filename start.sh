@@ -1,8 +1,4 @@
 #!/bin/sh
 
-# Start the backend server
-cd /server
-pnpm run dev &
-
-# Start Nginx for serving the frontend
+pm2 start /server/dist/api.js
 nginx -g "daemon off;"

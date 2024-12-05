@@ -76,6 +76,10 @@ pnpm dev
 - Summarization: OpenAI GPT API
 - PDF Parsing: pdfjs-dist
 
+## Deployment
+
+Currently deployed at [AutoNote](https://autonote.fly.dev/), although backend isn't functional as of 12/3.
+
 ## Author
 
 Developed by Arsh Singh as a Final Project for Info 1998

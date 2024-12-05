@@ -14,3 +14,6 @@ docker-compose.override.yml
 Thumbs.db
 
 .turbo
+
+.ssh
+.ssh-cert.pub

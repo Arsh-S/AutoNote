@@ -5,7 +5,7 @@ import { uploadFile, getFiles, deleteFile } from "./firebase";
 import { generateSummary } from "./openai";
 
 const app = express();
-const PORT = process.env.PORT || 5174;
+const PORT = Number(process.env.PORT) || 5174;
 
 // make max file size 100mb for all uploads
 app.use(express.json({ limit: "100mb" }));
@@ -107,11 +107,11 @@ app.get("/api/proxy-file", authenticate, async (req, res) => {
 });
 
 // Health Check
-app.get("/api/health", (_req, res) => {
-    res.status(200).json({ status: "Backend is running" });
+app.get('/api/health', (_req, res) => {
+    res.status(200).json({ status: 'ok' });
 });
 
 // Error Handler
-app.listen(Number(PORT), "0.0.0.0", () => {
+app.listen(PORT, "0.0.0.0", () => {
     console.log(`Server is running on http://0.0.0.0:${PORT}`);
 });
